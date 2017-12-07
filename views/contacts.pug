@@ -1,3 +1,6 @@
 include includes/head.pug
 body
     h1 Welcome to the contacts page
+    ul
+        each person in people
+            li #{person.firstName}
