@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost:27017/contacts';
+var contacts;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
