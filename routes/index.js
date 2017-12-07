@@ -16,6 +16,7 @@ router.get("/mailer", function(req, res, next) {
   res.render("mailer");
 });
 
+// POST mailer page
 router.post("/mailer", function(req, res, next) {
   MongoClient.connect(url, function(err, db) {
     var dbase=db.db("contacts");
@@ -25,10 +26,11 @@ router.post("/mailer", function(req, res, next) {
       db.close();
     })
   });
-  
-
-
   res.render("thanks", {name: req.body.firstName});
 })
 
+// GET contacts page
+router.get("/contacts", function(req, res, next) {
+  res.render("contacts");
+})
 module.exports = router;
