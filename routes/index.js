@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost:27017/contacts';
-
+require('dotenv').config();
+var dbuser = process.env.DB_USER;
+var dbpass = process.env.DB_PASSWORD;
+var url = 'mongodb://' + dbuser + ':' + dbpass + '@ds133136.mlab.com:33136/contacts';
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
