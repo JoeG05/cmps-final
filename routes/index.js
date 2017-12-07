@@ -13,7 +13,6 @@ router.get('/', function(req, res, next) {
 
 // GET mailer page
 router.get("/mailer", function(req, res, next) {
-  console.log(url);
   res.render("mailer");
 });
 
@@ -33,15 +32,14 @@ router.post("/mailer", function(req, res, next) {
 
 // GET contacts page
 router.get("/contacts", function(req, res, next) {
+  let contact;
   MongoClient.connect(url, function(err, db) {
-    var contact;
     var dbase=db.db("final");
     dbase.collection("contacts").find({}).toArray(function(err, result) {
-      console.log(result);
       if (err) throw err;
       db.close();
+      res.render("contacts", {people: result});
     })
   });
-  res.render("contacts", {people: result});
 })
 module.exports = router;
