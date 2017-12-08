@@ -1,6 +1,34 @@
 include includes/head.pug
 body
     h1 Welcome to the contacts page
-    ul
+    table.table
+        tr
+            th Name
+            th Address
+            th Phone
+            th Email
+            th Contact By Phone
+            th Contact By Email
+            th Contact By Mail
         each person in people
-            li #{person.firstName}
+            tr
+                if person.title
+                    td #{person.title} #{person.firstName} #{person.lastName}
+                else
+                    td #{person.firstName} #{person.lastName}
+                td #{person.street} #{person.city} #{person.state}, #{person.zip}
+                td #{person.phone}
+                td #{person.email}
+                if person.cbPhone || person.any
+                    td Yes
+                else
+                    td No
+                if person.cbEmail || person.any
+                    td Yes
+                else
+                    td No
+                if person.cbMail || person.any
+                    td Yes
+                else
+                    td No
+                
