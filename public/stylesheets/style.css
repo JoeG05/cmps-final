@@ -19,3 +19,10 @@ body {
 label {
   padding: 5px;
 }
+
+#map {
+  margin-left: 50px;
+  margin-top: 1em;
+  width: 80%;
+  height: 40%;
+}

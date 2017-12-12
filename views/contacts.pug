@@ -12,11 +12,8 @@ body
             th Contact By Mail
         each person in people
             tr
-                if person.title
-                    td #{person.title} #{person.firstName} #{person.lastName}
-                else
-                    td #{person.firstName} #{person.lastName}
-                td #{person.street} #{person.city} #{person.state}, #{person.zip}
+                td #{person.name}
+                td #{person.address}
                 td #{person.phone}
                 td #{person.email}
                 if person.cbPhone || person.any
@@ -31,4 +28,6 @@ body
                     td Yes
                 else
                     td No
+    a(href="/mailer") Mailer
+    #map
                 
