@@ -7,7 +7,14 @@ $(document).ready(function() {
         $(this).css("background-color", "");
     });
 
-    
+    $("tr").not(":first").click(function() {
+        var lat = parseFloat($(this).find("td.lat").text());
+        var lng = parseFloat($(this).find("td.lng").text());
+        map.setCenter({
+            lat: lat, 
+            lng: lng
+        })
+    })
 });
 
 function initMap() {
@@ -15,19 +22,39 @@ function initMap() {
         center: {lat: 40.7570877, lng: -73.8458213},
         zoom: 15
     });
+    console.log("test");
     addMarker();
 }
 
 function addMarker() {
-    var location = [];
-    location.lat = parseFloat($("tr").find("td.lat").text());
-    location.lng = parseFloat($("tr").find("td.lng").text());
-
+    
     var lat = [];
     var lng = [];
+    var name = [];
+    var address = [];
+    var email = [];
+    var phone = [];
+
+    $("tr").find("td.name").each(function(index) {
+        name.push($(this).text());
+    });
+
+    $("tr").find("td.email").each(function(index) {
+        email.push($(this).text());
+    });
+
+    $("tr").find("td.phone").each(function(index) {
+        phone.push($(this).text());
+    });
+
+    $("tr").find("td.address").each(function(index) {
+        address.push($(this).text());
+    });
+
     $("tr").find("td.lat").each(function(index) {
         lat.push(parseFloat($(this).text()));
     });
+
     $("tr").find("td.lng").each(function(index) {
         lng.push(parseFloat($(this).text()));
     });
@@ -38,6 +65,22 @@ function addMarker() {
             map: map,
             position: myLatLng
         });
-        console.log(x);
+        var content = "<h3>" + name[index] + "</h3>" + 
+            "<p>" + address[index] + "</p>" +
+            "<p>" + phone[index] + "</p>" +
+            "<p>" + email[index] + "</p>";
+        var infowindow = new google.maps.InfoWindow({
+            content: content
+        });
+        marker.addListener("click", function() {
+            infowindow.open(map, marker);
+            console.log(content);
+        });
+        marker.addListener("mouseover", function() {
+            infowindow.open(map, marker);
+        });
+        marker.addListener("mouseout", function() {
+            infowindow.close();
+        });
     });
 }

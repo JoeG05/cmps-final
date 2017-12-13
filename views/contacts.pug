@@ -13,10 +13,10 @@ body
                 th Contact By Mail
             each person in people
                 tr
-                    td #{person.name}
-                    td #{person.address}
-                    td #{person.phone}
-                    td #{person.email}
+                    td.name #{person.name}
+                    td.address #{person.address}
+                    td.phone #{person.phone}
+                    td.email #{person.email}
                     if person.cbPhone || person.any
                         td Yes
                     else
