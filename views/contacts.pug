@@ -29,9 +29,9 @@ body
                         td Yes
                     else
                         td No
+                    td.hidden.lat #{person.lat}
+                    td.hidden.lng #{person.long}
                     
-                    td.hidden #{person.lat}
-                    td.hidden #{person.long}
     p
         a(href="/mailer") Mailer
     #mapContainer
