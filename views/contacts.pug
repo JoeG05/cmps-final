@@ -29,9 +29,11 @@ body
                         td Yes
                     else
                         td No
+                    
                     td.hidden #{person.lat}
                     td.hidden #{person.long}
     p
         a(href="/mailer") Mailer
-    div#map hello
+    #mapContainer
+        div#map 
 include /includes/foot.pug
