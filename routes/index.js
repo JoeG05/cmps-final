@@ -46,15 +46,16 @@ router.post("/mailer", function(req, res, next) {
     contact.cbMail=req.body.cbMail;
     contact.any=req.body.any;
     geocoder.geocode(contact.address, function(err, res) {
-      contact.lat=res[0].latitude;
-      contact.long=res[0].longitude;
-      console.log(contact);
+        contact.lat=res[0].latitude;
+        contact.long=res[0].longitude;
+        
+        dbase.collection("contacts").insertOne(contact, function(err, res) {
+        if (err) throw err;
+        console.log("1 record inserted");
+        
+        db.close();
+      })
     });
-    dbase.collection("contacts").insertOne(contact, function(err, res) {
-      if (err) throw err;
-      console.log("1 record inserted");
-      db.close();
-    })
   });
   res.render("thanks", {name: req.body.firstName});
 })

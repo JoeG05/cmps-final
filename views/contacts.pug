@@ -1,33 +1,37 @@
 include includes/head.pug
 body
     h1 Welcome to the contacts page
-    table.table
-        tr
-            th Name
-            th Address
-            th Phone
-            th Email
-            th Contact By Phone
-            th Contact By Email
-            th Contact By Mail
-        each person in people
+    container
+        table.table
             tr
-                td #{person.name}
-                td #{person.address}
-                td #{person.phone}
-                td #{person.email}
-                if person.cbPhone || person.any
-                    td Yes
-                else
-                    td No
-                if person.cbEmail || person.any
-                    td Yes
-                else
-                    td No
-                if person.cbMail || person.any
-                    td Yes
-                else
-                    td No
-    a(href="/mailer") Mailer
-    #map
-                
+                th Name
+                th Address
+                th Phone
+                th Email
+                th Contact By Phone
+                th Contact By Email
+                th Contact By Mail
+            each person in people
+                tr
+                    td #{person.name}
+                    td #{person.address}
+                    td #{person.phone}
+                    td #{person.email}
+                    if person.cbPhone || person.any
+                        td Yes
+                    else
+                        td No
+                    if person.cbEmail || person.any
+                        td Yes
+                    else
+                        td No
+                    if person.cbMail || person.any
+                        td Yes
+                    else
+                        td No
+                    td.hidden #{person.lat}
+                    td.hidden #{person.long}
+    p
+        a(href="/mailer") Mailer
+    div#map hello
+include /includes/foot.pug
