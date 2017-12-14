@@ -1,20 +1,15 @@
 var express = require('express');
 var router = express.Router();
+var Contact = require('../models/contact.js');
+var ObjectID = require('mongodb').ObjectID;
+var nodeGeocoder = require('node-geocoder');
 
-var MongoClient = require('mongodb').MongoClient;
-require('dotenv').config();
-var dbuser = process.env.DB_USER;
-var dbpass = process.env.DB_PASSWORD;
-var url = 'mongodb://' + dbuser + ':' + dbpass + '@ds133856.mlab.com:33856/final';
-
-var NodeGeocoder = require('node-geocoder');
 var options = {
   provider: 'google',
   apiKey: 'AIzaSyANpmFb2U9rjGAIaClkoTMJms8iOUE67XA',
   formatter: null
 };
-
-var geocoder = NodeGeocoder(options);
+var geocoder = nodeGeocoder(options);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -28,9 +23,7 @@ router.get("/mailer", function(req, res, next) {
 
 // POST mailer page
 router.post("/mailer", function(req, res, next) {
-  
-  MongoClient.connect(url, function(err, db) {
-    var dbase=db.db("final");
+    
     var contact = {};
     var name = req.body.firstName + " " + req.body.lastName;
     contact.address = req.body.street + " " + req.body.city + " " + req.body.state + " " + req.body.zip;
@@ -46,30 +39,49 @@ router.post("/mailer", function(req, res, next) {
     contact.cbMail=req.body.cbMail;
     contact.any=req.body.any;
     geocoder.geocode(contact.address, function(err, res) {
-        contact.lat=res[0].latitude;
-        contact.long=res[0].longitude;
-        
-        dbase.collection("contacts").insertOne(contact, function(err, res) {
+      contact.lat = res[0].latitude;
+      contact.lng = res[0].longitude;
+      Contact.create(contact, function(err, post){
         if (err) throw err;
-        console.log("1 record inserted");
-        
-        db.close();
-      })
+      });
     });
-  });
-  res.render("thanks", {name: req.body.firstName});
-})
+    
+    res.render("thanks", {name: req.body.firstName});
+});
 
 // GET contacts page
 router.get("/contacts", function(req, res, next) {
-  let contact;
-  MongoClient.connect(url, function(err, db) {
-    var dbase=db.db("final");
-    dbase.collection("contacts").find({}).toArray(function(err, result) {
-      if (err) throw err;
-      db.close();
-      res.render("contacts", {people: result});
-    })
+  Contact.find(function(err, result){
+    if (err) throw err;
+    res.render("contacts", {people: result});
   });
-})
+  
+});
+
+router.get("/contacts/:id", function(req, res, next){
+  Contact.findById(req.params.id, req.body, function(err, result){
+    if (err) throw err;
+    res.render("edit", {person: result});
+  });
+});
+
+router.post("/contacts/:id", function(req, res, next){
+  
+  Contact.findByIdAndUpdate({_id: req.body.id}, req.body, function(err, result){
+    if (err) throw err;
+    });
+  
+  res.render("thanks", {name: req.body.name})
+});
+
+router.get("/contacts/:id/delete", function(req, res) {
+  Contact.findByIdAndRemove(req.params.id, function(err, result) {
+    if(err) throw err;
+  });
+  Contact.find(function(err, result){
+    if (err) throw err;
+    res.render("contacts", {people: result});
+  });
+});
+
 module.exports = router;

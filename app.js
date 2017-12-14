@@ -4,15 +4,15 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var MongoClient = require('mongodb').MongoClient;
+var mongoose = require('mongoose');
 
 
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+mongoose.Promise = global.Promise;
+mongoose.connect("mongodb://localhost:27017", {useMongoClient: true});
 var app = express();
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

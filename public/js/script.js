@@ -15,6 +15,8 @@ $(document).ready(function() {
             lng: lng
         })
     })
+
+    
 });
 
 function initMap() {
@@ -22,7 +24,6 @@ function initMap() {
         center: {lat: 40.7570877, lng: -73.8458213},
         zoom: 15
     });
-    console.log("test");
     addMarker();
 }
 
