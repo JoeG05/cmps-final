@@ -23,7 +23,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 mongoose.Promise = global.Promise;
-mongoose.connect("mongodb://localhost:27017", {useMongoClient: true});
+mongoose.connect("mongodb://localhost:27017/final", {useMongoClient: true});
 
 var routes = require('./routes/index');
 
