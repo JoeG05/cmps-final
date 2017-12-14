@@ -66,12 +66,26 @@ router.get("/contacts/:id", function(req, res, next){
 });
 
 router.post("/contacts/:id", function(req, res, next){
-  
-  Contact.findByIdAndUpdate({_id: req.body.id}, req.body, function(err, result){
+  var contact = {};
+  contact.name = req.body.name;
+  contact.address = req.body.address;
+  contact.phone=req.body.phone;
+  contact.email=req.body.email;
+  contact.cbPhone=req.body.cbPhone;
+  contact.cbEmail=req.body.cbEmail;
+  contact.cbMail=req.body.cbMail;
+  contact.any=req.body.any;
+  geocoder.geocode(contact.address, function(err, res) {
+    contact.lat = res[0].latitude;
+    contact.lng = res[0].longitude;
+    Contact.findByIdAndUpdate({_id: req.body.id}, contact, function(err, result){
     if (err) throw err;
     });
-  
-  res.render("thanks", {name: req.body.name})
+  });
+  Contact.find(function(err, result){
+    if (err) throw err;
+    res.render("contacts", {people: result});
+  });
 });
 
 router.get("/contacts/:id/delete", function(req, res) {
@@ -82,6 +96,10 @@ router.get("/contacts/:id/delete", function(req, res) {
     if (err) throw err;
     res.render("contacts", {people: result});
   });
+});
+
+router.get("/login", function(req, res) {
+  res.render("login");
 });
 
 module.exports = router;
