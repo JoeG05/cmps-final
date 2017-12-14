@@ -11,6 +11,16 @@ var options = {
 };
 var geocoder = nodeGeocoder(options);
 
+function restrict(req, res, next) {
+  if (req.user) {
+    next();
+  } else {
+    req.session.error = "Access Denied!";
+    console.log("Unauthorized Page Access.");
+    res.redirect("login");
+  }
+}
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -50,7 +60,7 @@ router.post("/mailer", function(req, res, next) {
 });
 
 // GET contacts page
-router.get("/contacts", function(req, res, next) {
+router.get("/contacts", restrict, function(req, res, next) {
   Contact.find(function(err, result){
     if (err) throw err;
     res.render("contacts", {people: result});
@@ -98,8 +108,5 @@ router.get("/contacts/:id/delete", function(req, res) {
   });
 });
 
-router.get("/login", function(req, res) {
-  res.render("login");
-});
 
 module.exports = router;
