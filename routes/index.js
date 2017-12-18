@@ -42,6 +42,13 @@ router.post("/mailer", function(req, res, next) {
     } else {
       contact.name=name;
     }
+    contact.title=req.body.title;
+    contact.firstName=req.body.firstName;
+    contact.lastName=req.body.lastName;
+    contact.street=req.body.street;
+    contact.city=req.body.city;
+    contact.state=req.body.state;
+    contact.zip=req.body.zip;
     contact.phone=req.body.phone;
     contact.email=req.body.email;
     contact.cbPhone=req.body.cbPhone;
@@ -77,8 +84,14 @@ router.get("/contacts/:id", function(req, res, next){
 
 router.post("/contacts/:id", function(req, res, next){
   var contact = {};
-  contact.name = req.body.name;
-  contact.address = req.body.address;
+  contact.title=req.body.title;
+  contact.firstName=req.body.firstName;
+  contact.lastName=req.body.lastName;
+  contact.address=req.body.street + " " + req.body.city + " " + req.body.state + " " + req.body.zip;
+  contact.street=req.body.street;
+  contact.city=req.body.city;
+  contact.state=req.body.state;
+  contact.zip=req.body.zip;
   contact.phone=req.body.phone;
   contact.email=req.body.email;
   contact.cbPhone=req.body.cbPhone;
@@ -98,7 +111,7 @@ router.post("/contacts/:id", function(req, res, next){
   });
 });
 
-router.get("/contacts/:id/delete", function(req, res) {
+router.post("/contacts/:id/delete", function(req, res) {
   Contact.findByIdAndRemove(req.params.id, function(err, result) {
     if(err) throw err;
   });

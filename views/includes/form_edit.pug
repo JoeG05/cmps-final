@@ -1,16 +1,80 @@
 form(action="/contacts/:id", method="POST")
-    .container      
+    .container
         p
-        //name (text)
-        label(for='name') Name:
-        |             
-        input(type='text', name='name', required='', autofocus='', value= person.name)
-                
-        p
-        // address (text)
-        label(for='name') Address:
+        // radio (mr. mrs. ms. dr.)
+        if person.title == "Mr."
+            input(type='radio', name='title', value='Mr.', checked)
+        else
+            input(type='radio', name='title', value='Mr.')
+        | Mr.
         |
-        input(type='text', name='address', value= person.address)     
+        if person.title == "Mrs."
+            input(type='radio', name='title', value='Mrs.', checked)
+        else
+            input(type='radio', name='title', value='Mrs.')
+        | Mrs.
+        |
+        if person.title == "Ms."
+            input(type='radio', name='title', value='Ms.', checked)
+        else
+            input(type='radio', name='title', value='Ms.')
+        | Ms.
+        |
+        if person.title == "Dr."
+            input(type='radio', name='title', value='Dr.', checked)
+        else
+            input(type='radio', name='title', value='Dr.')
+        | Dr.
+        |          
+        p
+        // first name (text)
+        label(for="firstName") First Name:
+        |
+        input(type="text", name="firstName", required, autofocus, value=person.firstName)
+        // last name (text)
+        label(for="lastName") Last Name:
+        |
+        input(type="text", name="lastName", required, value=person.lastName)
+        |
+        p
+        // street (text)
+        label(for='street') Street:
+        |             
+        input(type='text', name='street', value=person.street)
+        // city (text)
+        label(for='city') City:
+        |             
+        input(type='text', name='city', value=person.city)
+        |         
+        p
+        // state (dropdown: nj, ny, pa, ct)
+        label(for='state') State:
+        |             
+        select(name='state')
+            if person.state=="NJ"
+                option(value="NJ", selected="selected") NJ
+            else
+                option(value='NJ') NJ
+            |
+            if person.state=="NY"
+                option(value="NY", selected="selected") NY
+            else
+                option(value='NY') NY
+            |
+            if person.state=="PA"
+                option(value="PA", selected="selected") PA
+            else
+                option(value='PA') PA
+            |
+            if person.state=="CT"
+                option(value="CT", selected="selected") CT
+            else                 
+                option(value="CT") CT
+        // zip (text)
+        label(for='zip') Zip:
+        |             
+        input(type='text', name='zip', value=person.zip)
+        |              
         p
         // Phone (text?)
         label(for='phone') Phone:
@@ -44,5 +108,5 @@ form(action="/contacts/:id", method="POST")
         |
         p
         |         
-        button.btn.btn-info(type='submit') Send me spam forever!
+        button.btn.btn-info(type='submit') Update
         input.hidden(type="text", name="id", value= person._id)

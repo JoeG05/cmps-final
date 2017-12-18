@@ -1,8 +1,14 @@
 var mongoose = require("mongoose");
 
 var contactSchema = new mongoose.Schema({
-    name: String,
+    title: String,
+    firstName: String,
+    lastName: String,
     address: String,
+    street: String,
+    city: String,
+    state: String,
+    zip: String,
     phone: String,
     email: String,
     cbPhone: Boolean,
